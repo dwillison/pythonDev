@@ -86,8 +86,9 @@ def parseLog(fileName):
 
 
 def csvMe(days,outputFileName):
-    """Still in development
-    | DATE, START, END, TOTAL
+    """
+    takes the days data collected from the log file and 
+    prints it out in CSV format
     """
     field_names = ['Date','Start', 'End', 'Total']
 
