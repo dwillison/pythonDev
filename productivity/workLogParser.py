@@ -1,5 +1,6 @@
 from datetime import timedelta
-
+import csv
+import os
 
 #date      = d
 #startTime = s
@@ -85,8 +86,22 @@ def parseLog(fileName):
 
 
 def csvMe(days,outputFileName):
-    """Still in development"""
-    pass
+    """Still in development
+    | DATE, START, END, TOTAL
+    """
+    field_names = ['Date','Start', 'End', 'Total']
+
+    # writing CSV data to output file
+    with open(outputFileName, 'a+', encoding='utf-8') as file:
+        csvwriter = csv.DictWriter(file, field_names)
+
+        # check if size of file is 0 and print header
+        if os.stat(outputFileName).st_size == 0:
+            csvwriter.writeheader()
+        
+        print(days)
+        for i in days:
+            csvwriter.writerow({'Date': i['date'],'Start': i['start'],'End': i['end'],'Total': i['total']})
 
 
 def printing(days):
@@ -95,11 +110,15 @@ def printing(days):
         select = input("1 - Print results to csv file\n2 - List dates with time totals\n3 - List day, shift start, shift end, total time \n4 - Exit\nEnter the options you would like (e.g. 234)\n")
 
         for opt in str(select):
+            #remove void leading day
+            tmp = days.pop(0)
+
             # print to csv
+            # Date,Start,End,Total
+            # "Nov 4, 21",9:30:00,10:30:00,1:00:00
             if opt == "1":
                 outputFileName = input("Name for output file:")
                 csvMe(days,outputFileName)
-            tmp = days.pop(0)
 
             # list | date   | time  |
             if opt == "2":
@@ -133,3 +152,4 @@ def main():
 
 if __name__=="__main__":
     main()
+
